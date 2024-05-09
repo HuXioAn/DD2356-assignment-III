@@ -6,6 +6,8 @@
 #include <math.h>
 #include <time.h>
 
+#include "mpi.h"
+
 #define SEED     921
 #define NUM_ITER 1000000000
 
