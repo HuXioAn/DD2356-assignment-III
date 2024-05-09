@@ -29,6 +29,7 @@ int main(int argc, char* argv[])
     
     srand(time(NULL) + world_rank * SEED); // Important: Multiply SEED by "rank" when you introduce MPI!
     
+    double startTime = MPI_Wtime();
     // Calculate PI following a Monte Carlo method
     for (int iter = 0; iter < (NUM_ITER/world_size); iter++)
     {
@@ -52,6 +53,7 @@ int main(int argc, char* argv[])
         // Estimate Pi and display the result
         pi = ((double)totalCount / (double)NUM_ITER) * 4.0;
         printf("The result is %f\n", pi);
+        printf("The time elapsed is %f\n", MPI_Wtime()-startTime);
     }
     
     return 0;
