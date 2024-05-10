@@ -32,9 +32,23 @@ int main(int argc, char *argv[]){
     
     // need to communicate and fill ghost cells f[0] and f[nxn_loc-1]
     // communicate ghost cells
-    // ...
-    // ...  
+    int next_rank = (rank + 1) % size;
+    int prev_rank = (rank - 1 + size) % size;
 
+    MPI_Request send_reqs[2], recv_reqs[2];
+    MPI_Status statuses[2];
+
+    // Send to next, receive from previous
+    MPI_Irecv(f, 1, MPI_DOUBLE, prev_rank, 0, MPI_COMM_WORLD, &recv_reqs[0]);
+    MPI_Isend(f + nxn_loc - 2, 1, MPI_DOUBLE, next_rank, 0, MPI_COMM_WORLD, &send_reqs[0]);
+
+    // Send to previous, receive from next
+    MPI_Irecv(f + nxn_loc - 1, 1, MPI_DOUBLE, next_rank, 1, MPI_COMM_WORLD, &recv_reqs[1]);
+    MPI_Isend(f + 1, 1, MPI_DOUBLE, prev_rank, 1, MPI_COMM_WORLD, &send_reqs[1]);
+
+    // Wait for all non-blocking communications to complete
+    MPI_Waitall(2, recv_reqs, statuses);
+    MPI_Waitall(2, send_reqs, statuses);
 
     // here we finish the calculations
 
