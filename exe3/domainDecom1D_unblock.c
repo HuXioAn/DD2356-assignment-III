@@ -40,11 +40,11 @@ int main(int argc, char *argv[]){
 
     // Send to next, receive from previous
     MPI_Irecv(f, 1, MPI_DOUBLE, prev_rank, 0, MPI_COMM_WORLD, &recv_reqs[0]);
-    MPI_Isend(f + nxn_loc - 2, 1, MPI_DOUBLE, next_rank, 0, MPI_COMM_WORLD, &send_reqs[0]);
+    MPI_Isend(f + nxn_loc - 3, 1, MPI_DOUBLE, next_rank, 0, MPI_COMM_WORLD, &send_reqs[0]);
 
     // Send to previous, receive from next
     MPI_Irecv(f + nxn_loc - 1, 1, MPI_DOUBLE, next_rank, 1, MPI_COMM_WORLD, &recv_reqs[1]);
-    MPI_Isend(f + 1, 1, MPI_DOUBLE, prev_rank, 1, MPI_COMM_WORLD, &send_reqs[1]);
+    MPI_Isend(f + 2, 1, MPI_DOUBLE, prev_rank, 1, MPI_COMM_WORLD, &send_reqs[1]);
 
     // Wait for all non-blocking communications to complete
     MPI_Waitall(2, recv_reqs, statuses);
@@ -62,10 +62,12 @@ int main(int argc, char *argv[]){
     if (rank==0){ // print only rank 0 for convenience
         printf("My rank %d of %d\n", rank, size );
         printf("Here are my values for f including ghost cells\n");
-        for (i=0; i<nxn_loc; i++)
+        for (i=1; i<nxn_loc-1; i++)
 	       printf("%f\n", f[i]);
+        for (i=1; i<(nxn_loc-1); i++)
+         printf("%f\n",dfdx[i]);
         printf("\n");
-    }   
+    }     
 
     MPI_Finalize();
 }

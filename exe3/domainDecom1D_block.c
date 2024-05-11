@@ -37,14 +37,32 @@ int main(int argc, char *argv[]){
 
     MPI_Status status;
     // Send to next, receive from previous
-    MPI_Sendrecv(f + nxn_loc - 2, 1, MPI_DOUBLE, next_rank, 0, 
-                 f, 1, MPI_DOUBLE, prev_rank, 0, 
-                 MPI_COMM_WORLD, &status);
+    // MPI_Sendrecv(f + nxn_loc - 3, 1, MPI_DOUBLE, next_rank, 0, 
+    //              f, 1, MPI_DOUBLE, prev_rank, 0, 
+    //              MPI_COMM_WORLD, &status);
+
+    // // Send to previous, receive from next
+    // MPI_Sendrecv(f + 2, 1, MPI_DOUBLE, prev_rank, 1,
+    //              f + nxn_loc - 1, 1, MPI_DOUBLE, next_rank, 1,
+    //              MPI_COMM_WORLD, &status);
+
+    //Another way
+    if(rank == 0){
+    MPI_recv(f, 1, MPI_DOUBLE, prev_rank, 0, MPI_COMM_WORLD, &recv_reqs[0]);
+    MPI_Ssend(f + nxn_loc - 3, 1, MPI_DOUBLE, next_rank, 0, MPI_COMM_WORLD, &send_reqs[0]);
 
     // Send to previous, receive from next
-    MPI_Sendrecv(f + 1, 1, MPI_DOUBLE, prev_rank, 1,
-                 f + nxn_loc - 1, 1, MPI_DOUBLE, next_rank, 1,
-                 MPI_COMM_WORLD, &status);
+    MPI_recv(f + nxn_loc - 1, 1, MPI_DOUBLE, next_rank, 1, MPI_COMM_WORLD, &recv_reqs[1]);
+    MPI_Ssend(f + 2, 1, MPI_DOUBLE, prev_rank, 1, MPI_COMM_WORLD, &send_reqs[1]);
+    }
+    else{
+    MPI_Ssend(f + nxn_loc - 3, 1, MPI_DOUBLE, next_rank, 0, MPI_COMM_WORLD, &send_reqs[0]);
+    MPI_recv(f, 1, MPI_DOUBLE, prev_rank, 0, MPI_COMM_WORLD, &recv_reqs[0]);
+
+    // Send to previous, receive from next
+    MPI_Ssend(f + 2, 1, MPI_DOUBLE, prev_rank, 1, MPI_COMM_WORLD, &send_reqs[1]);
+    MPI_recv(f + nxn_loc - 1, 1, MPI_DOUBLE, next_rank, 1, MPI_COMM_WORLD, &recv_reqs[1]);
+    }
 
     // here we finish the calculations
 
@@ -58,8 +76,10 @@ int main(int argc, char *argv[]){
     if (rank==0){ // print only rank 0 for convenience
         printf("My rank %d of %d\n", rank, size );
         printf("Here are my values for f including ghost cells\n");
-        for (i=0; i<nxn_loc; i++)
+        for (i=1; i<nxn_loc-1; i++)
 	       printf("%f\n", f[i]);
+        for (i=1; i<(nxn_loc-1); i++)
+         printf("%f\n",dfdx[i]);
         printf("\n");
     }   
 
