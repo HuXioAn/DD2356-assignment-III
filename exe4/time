@@ -1,0 +1,49 @@
+andonghu@uan01:~/Private/DD2356-assignment-III/exe4> srun -n 8 ./a.out 
+The result is 3.141466
+The time elapsed is 2.929126
+andonghu@uan01:~/Private/DD2356-assignment-III/exe4> srun -n 16 ./a.out 
+The result is 3.141632
+The time elapsed is 1.573351
+andonghu@uan01:~/Private/DD2356-assignment-III/exe4> srun -n 32 ./a.out 
+The result is 3.141690
+The time elapsed is 1.127286
+andonghu@uan01:~/Private/DD2356-assignment-III/exe4> srun -n 32 ./a.out 
+The result is 3.141562
+The time elapsed is 0.801574
+andonghu@uan01:~/Private/DD2356-assignment-III/exe4> srun -n 32 ./a.out 
+The result is 3.141611
+The time elapsed is 1.191553
+andonghu@uan01:~/Private/DD2356-assignment-III/exe4> srun -n 64 ./a.out 
+The result is 3.141481
+The time elapsed is 0.738020
+andonghu@uan01:~/Private/DD2356-assignment-III/exe4> srun -n 64 ./a.out 
+The result is 3.141522
+The time elapsed is 0.438791
+andonghu@uan01:~/Private/DD2356-assignment-III/exe4> srun -n 64 ./a.out 
+The result is 3.141688
+The time elapsed is 0.736010
+andonghu@uan01:~/Private/DD2356-assignment-III/exe4> srun -n 64 ./a.out 
+The result is 3.141597
+The time elapsed is 0.450071
+andonghu@uan01:~/Private/DD2356-assignment-III/exe4> srun -n 64 ./a.out 
+The result is 3.141557
+The time elapsed is 0.629957
+
+
+128
+The result is 3.141596
+The time elapsed is 0.304389
+The result is 3.141560
+The time elapsed is 0.400510
+The result is 3.141655
+The time elapsed is 0.304817
+
+256
+The result is 3.141592
+The time elapsed is 0.210218
+The result is 3.141511
+The time elapsed is 0.208942
+The result is 3.141525
+The time elapsed is 0.160913
+The result is 3.141612
+The time elapsed is 0.217568
