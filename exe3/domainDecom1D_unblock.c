@@ -64,6 +64,7 @@ int main(int argc, char *argv[]){
         printf("Here are my values for f including ghost cells\n");
         for (i=1; i<nxn_loc-1; i++)
 	       printf("%f\n", f[i]);
+	printf("dfdx:\n");
         for (i=1; i<(nxn_loc-1); i++)
          printf("%f\n",dfdx[i]);
         printf("\n");
