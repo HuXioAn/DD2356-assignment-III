@@ -55,6 +55,8 @@ int main(int argc, char* argv[])
         printf("The result is %f\n", pi);
         printf("The time elapsed is %f\n", MPI_Wtime()-startTime);
     }
+
+    MPI_Finalize();
     
     return 0;
 }
